@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home">Home</string>
+    <string name="chat">Chat</string>
+    <string name="menu">Menu</string>
+    <string name="devmark">Devmark</string>
+    <string name="personal">Personal</string>
+
+    <string name="message">Message</string>
+    <string name="profile">Profile</string>
+    <string name="account">Account</string>
+
+    <string name="register">Register</string>
+    <string name="create_a_new_user">Create a new user</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="confirm_password">Confirm password</string>
+</resources>

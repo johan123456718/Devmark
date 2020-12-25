@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "48418650314",
+    "project_id": "devmark-21169",
+    "storage_bucket": "devmark-21169.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48418650314:android:94310c4a02c4dcd5645c33",
+        "android_client_info": {
+          "package_name": "com.example.devmark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48418650314-19fmt8cl2kbr924kabpi6jaa15523qto.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp_o5arrH8NValmL9R9Q2NPiXzSPe9iTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48418650314-19fmt8cl2kbr924kabpi6jaa15523qto.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
