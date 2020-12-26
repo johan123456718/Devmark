@@ -1,5 +1,6 @@
 package com.example.devmark.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.devmark.MainActivity;
 import com.example.devmark.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -75,8 +77,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                getFragmentManager().beginTransaction().replace(R.id.menuContainer,
-                                        new HomeFragment()).commit();
+                                Intent intent = new Intent(rootView.getContext(), MainActivity.class);
+                                getActivity().finish();
+                                startActivity(intent);
                             }else{
                                 Toast.makeText(getActivity(), "Incorrect password or email", Toast.LENGTH_SHORT).show();
                             }
