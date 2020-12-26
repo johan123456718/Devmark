@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.example.devmark.fragments.MessageFragment;
 import com.example.devmark.fragments.ProfileFragment;
 import com.example.devmark.fragments.RegisterFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
@@ -27,7 +29,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
-
+    private FirebaseUser firebaseUser;
+    private Menu menu;
+    private MenuItem logoutItem, loginItem, registerItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout = findViewById(R.id.theMenu);
         navigationView = findViewById(R.id.nav_view);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        menu = navigationView.getMenu();
+        loginItem = menu.findItem(R.id.login);
+        logoutItem = menu.findItem(R.id.logout);
+        registerItem = menu.findItem(R.id.register);
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.openDrawer,R.string.closeDrawer);
         actionBarDrawerToggle.syncState();
@@ -54,6 +64,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        if(firebaseUser != null){
+            logoutItem.setVisible(true);
+            loginItem.setVisible(false);
+            registerItem.setVisible(false);
+        }else{
+            logoutItem.setVisible(false);
+            loginItem.setVisible(true);
+            registerItem.setVisible(true);
+        }
     }
 
     @Override
@@ -90,6 +110,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.register:
                 currentFragment = new RegisterFragment();
             break;
+
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivity(getIntent());
+            break;
+
         }
         if(currentFragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.menuContainer,
