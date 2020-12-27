@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.devmark.MainActivity;
 import com.example.devmark.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -105,14 +106,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                             HashMap<String, String> hashMap = new HashMap<>();
                             hashMap.put("id", userId);
                             hashMap.put("username", username);
+                            hashMap.put("email", email);
                             hashMap.put("imageURL", "default");
 
                             databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        getFragmentManager().beginTransaction().replace(R.id.menuContainer,
-                                                new LoginFragment()).commit();
+                                        Intent intent = new Intent(rootView.getContext(), MainActivity.class);
+                                        getActivity().finish();
+                                        startActivity(intent);
                                     }
                                 }
                             });
