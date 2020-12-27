@@ -10,8 +10,12 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.devmark.fragments.ChatFragment;
@@ -20,18 +24,33 @@ import com.example.devmark.fragments.LoginFragment;
 import com.example.devmark.fragments.MessageFragment;
 import com.example.devmark.fragments.ProfileFragment;
 import com.example.devmark.fragments.RegisterFragment;
+import com.example.devmark.model.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+/**
+ * Inspiration for NavigationView, there are 3 parts:
+ * https://www.youtube.com/watch?v=fGcMLu1GJEc&list=RDCMUC_Fh8kvtkVPkeihBs42jGcA&index=6
+ * https://www.youtube.com/watch?v=zYVEMCiDcmY&list=RDCMUC_Fh8kvtkVPkeihBs42jGcA&index=2
+ * https://www.youtube.com/watch?v=bjYstsO1PgI&list=RDCMUC_Fh8kvtkVPkeihBs42jGcA&index=1
+ */
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
     private FirebaseUser firebaseUser;
+    private TextView navUsername;
+    private ImageView navImage;
+    private DatabaseReference reference;
     private Menu menu;
     private MenuItem logoutItem, loginItem, registerItem;
+    private View navHeader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +62,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.theMenu);
         navigationView = findViewById(R.id.nav_view);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(firebaseUser != null) {
+             reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        }
+        navHeader = navigationView.getHeaderView(0);
+        navUsername = navHeader.findViewById(R.id.navUsername);
+        navImage = navHeader.findViewById(R.id.navImage);
+
         menu = navigationView.getMenu();
         loginItem = menu.findItem(R.id.login);
         logoutItem = menu.findItem(R.id.logout);
@@ -73,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             logoutItem.setVisible(false);
             loginItem.setVisible(true);
             registerItem.setVisible(true);
+            navImage.setVisibility(View.GONE);
+        }
+        if(firebaseUser != null) {
+            reference.addValueEventListener(this);
         }
     }
 
@@ -89,18 +120,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.home:
                 currentFragment = new HomeFragment();
-
             break;
+
             case R.id.message:
-               currentFragment = new MessageFragment();
+                if (firebaseUser != null) {
+                    currentFragment = new MessageFragment();
+                }else{
+                    Toast.makeText(this, "You need to be logged in order to be able to go in here!", Toast.LENGTH_SHORT).show();
+                }
             break;
 
             case R.id.chat:
-                currentFragment = new ChatFragment();
+                if (firebaseUser != null) {
+                    currentFragment = new ChatFragment();
+                }else{
+                    Toast.makeText(this, "You need to be logged in order to be able to go in here!", Toast.LENGTH_SHORT).show();
+                }
             break;
 
             case R.id.profile:
-                currentFragment = new ProfileFragment();
+                if (firebaseUser != null) {
+                    currentFragment = new ProfileFragment();
+                }else{
+                    Toast.makeText(this, "You need to be logged in order to be able to go in here!", Toast.LENGTH_SHORT).show();
+                }
             break;
 
             case R.id.login:
@@ -133,5 +176,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else{
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        User user = snapshot.getValue(User.class);
+        if(user != null) {
+            navUsername.setText(user.getUsername());
+        }
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
     }
 }
