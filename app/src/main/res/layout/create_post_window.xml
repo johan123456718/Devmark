@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/title"
+        android:hint="Project title (*)"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/black"
+        android:layout_width="match_parent"
+        android:inputType="textShortMessage"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/description"
+        android:hint="Description (*)"
+        android:textColorHint="@color/black"
+        android:inputType="textMultiLine"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/black"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/title"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:id="@+id/middleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@id/description"
+        android:padding="8dp"
+        android:background="@drawable/rounded_bg_white_linear">
+
+        <TextView
+            android:id="@+id/requireText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Requirements"/>
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requireSQL"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:textColor="@color/black"
+            android:layout_below="@+id/requireText"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_background_color="@color/black"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_size="20dp"
+            app:isw_default_selection="left"
+            app:isw_icon_right="@drawable/mysql"
+            app:isw_icon_left="@drawable/logout"
+            />
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requireCsharp"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/requireSQL"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_right="@drawable/csharp"/>
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requireJava"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/requireCsharp"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_right="@drawable/java"
+            app:isw_icon_left="@drawable/logout"/>
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requireJavascript"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_toRightOf="@+id/requireSQL"
+            android:layout_below="@+id/requireText"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_icon_right="@drawable/javascript"/>
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requireHtml"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_toRightOf="@+id/requireSQL"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/requireJavascript"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_icon_right="@drawable/html"/>
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/python"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_toRightOf="@+id/requireSQL"
+            android:layout_below="@+id/requireHtml"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_icon_right="@drawable/python"/>
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requireCplus"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_toRightOf="@+id/requireJavascript"
+            android:layout_below="@+id/requireText"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_icon_right="@drawable/cplus"/>
+
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requireClanguage"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_height="25dp"
+            android:layout_toRightOf="@+id/requireJavascript"
+            android:layout_below="@+id/requireCplus"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_icon_right="@drawable/c"/>
+
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requireSwift"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/requireJavascript"
+            android:layout_below="@+id/requireClanguage"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_icon_right="@drawable/swift"/>
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requiredCss"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_toRightOf="@+id/requireCplus"
+            android:layout_below="@+id/requireText"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_icon_right="@drawable/css"/>
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requirePhp"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/requireCplus"
+            android:layout_below="@+id/requiredCss"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_icon_right="@drawable/php"/>
+
+        <com.polyak.iconswitch.IconSwitch
+            android:id="@+id/requireR"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/requireCplus"
+            android:layout_below="@+id/requirePhp"
+            android:textColor="@color/black"
+            app:isw_icon_size="20dp"
+            app:isw_thumb_color_left="@color/blue"
+            app:isw_default_selection="left"
+            app:isw_inactive_tint_icon_right="@color/white"
+            app:isw_icon_left="@drawable/logout"
+            app:isw_icon_right="@drawable/r"/>
+
+
+        <EditText
+            android:id="@+id/other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:hint="Other"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/black"
+            android:inputType="textFilter"/>
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/footerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/middleLayout"
+        android:background="@drawable/rounded_bg_white_linear">
+        <fragment
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:context="com.example.mapwithmarker.MapsMarkerActivity"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
