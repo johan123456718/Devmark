@@ -2,7 +2,7 @@ package com.example.devmark.model;
 
 public class User {
 
-    private int uuid;
+    private String uuid;
     private String username;
     private String email;
 
@@ -10,17 +10,17 @@ public class User {
 
     }
 
-    public User(int uuid, String username, String email){
+    public User(String uuid, String username, String email){
         this.uuid = uuid;
         this.username = username;
         this.email = email;
     }
 
-    public int getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(int uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

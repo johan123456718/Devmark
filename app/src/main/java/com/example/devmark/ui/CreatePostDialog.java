@@ -23,16 +23,30 @@ import com.example.devmark.MainActivity;
 import com.example.devmark.R;
 import com.example.devmark.fragments.HomeFragment;
 import com.example.devmark.model.DialogListener;
+import com.example.devmark.model.Post;
+import com.example.devmark.model.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.polyak.iconswitch.IconSwitch;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,16 +65,18 @@ import static android.content.DialogInterface.BUTTON_POSITIVE;
  */
 public class CreatePostDialog extends AppCompatDialogFragment implements DialogInterface.OnClickListener, OnMapReadyCallback{
     private EditText editTextProjectTitle, editDescription, editOtherRequirements;
-    private DialogListener dialogListener;
     private SupportMapFragment supportMapFragment;
     private String countryLocation;
     private IconSwitch iconSwitchSQL, iconSwitchCsharp,
             iconSwitchJava, iconSwitchJs, iconSwitchHtml,
             iconSwitchPython, iconSwitchCplus, iconSwitchC, iconSwitchSwift,
             iconSwitchCss, iconSwitchPhp, iconSwitchR;
-
     private List<String> getAllCheckedRequirements;
     private View view;
+
+    private DatabaseReference databaseReference;
+    private FirebaseAuth auth;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -77,6 +93,8 @@ public class CreatePostDialog extends AppCompatDialogFragment implements DialogI
         editDescription = view.findViewById(R.id.description);
         editOtherRequirements = view.findViewById(R.id.other);
         getAllCheckedRequirements = new ArrayList<>();
+
+        auth = FirebaseAuth.getInstance();
         iconInit();
 
         builder.setView(view)
@@ -289,12 +307,56 @@ public class CreatePostDialog extends AppCompatDialogFragment implements DialogI
             case BUTTON_POSITIVE:
                 String projectTitle = editTextProjectTitle.getText().toString();
                 String description = editDescription.getText().toString();
-                String otherDescription = editOtherRequirements.getText().toString();
-                if(!otherDescription.isEmpty()) {
-                    getAllCheckedRequirements.add(otherDescription);
+                String otherRequirements = editOtherRequirements.getText().toString();
+
+                if(!otherRequirements.isEmpty()) {
+                    getAllCheckedRequirements.add(otherRequirements);
                 }
-                dialogListener.applyTextContent(projectTitle, description, getAllCheckedRequirements, countryLocation);
-                dialog.dismiss();
+                FirebaseUser firebaseUser = auth.getCurrentUser();
+
+                String userId = firebaseUser.getUid();
+                databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        String userName = user.getUsername();
+                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
+
+                        StringBuilder sb = new StringBuilder();
+                        for(String requirement : getAllCheckedRequirements){
+                            sb.append(requirement);
+                            sb.append(", ");
+                        }
+
+                        HashMap<String, String> list = new HashMap<>();
+                        list.put("id", userId);
+                        list.put("creator", userName);
+                        list.put("project_title", projectTitle);
+                        list.put("description", description);
+                        list.put("requirements", sb.toString());
+                        list.put("location", countryLocation);
+
+                        String id = databaseReference.push().getKey();
+                        databaseReference.child(id).setValue(list).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(view.getContext(), "Post successful!", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(view.getContext(), "Post unsuccessful!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(view.getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            dialog.dismiss();
             break;
         }
     }
@@ -321,17 +383,7 @@ public class CreatePostDialog extends AppCompatDialogFragment implements DialogI
             iconSwitchR.setCheckedChangeListener(null);
         }
 
-        @Override
-        public void onAttach(@NonNull Context context) {
-            super.onAttach(context);
-            try{
-                dialogListener = (DialogListener) getTargetFragment();
-            }catch (ClassCastException e){
-                throw new ClassCastException(e.getMessage() + "Insert listener!!");
-            }
-        }
-
-        @Override
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
