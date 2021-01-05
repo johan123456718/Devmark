@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,14 +26,16 @@ public class ProfileFragment extends Fragment implements ValueEventListener {
     private View rootView;
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
-    private TextView text;
+    private TextView usernameProfile, emailProfile;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_profile, container, false);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        text =  rootView.findViewById(R.id.usernameProfile);
+        usernameProfile = rootView.findViewById(R.id.usernameProfile);
+        emailProfile = rootView.findViewById(R.id.emailProfile);
         return rootView;
     }
 
@@ -55,7 +58,8 @@ public class ProfileFragment extends Fragment implements ValueEventListener {
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         User user = snapshot.getValue(User.class);
-        text.setText(user.getUsername());
+        usernameProfile.setText(user.getUsername());
+        emailProfile.setText(user.getEmail());
     }
 
     @Override
