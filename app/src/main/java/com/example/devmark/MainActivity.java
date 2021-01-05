@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -132,7 +133,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.chat:
                 if (firebaseUser != null) {
-                    currentFragment = new ChatFragment();
+                    Intent intent = new Intent(this, ChatActivity.class);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(this, "You need to be logged in order to be able to go in here!", Toast.LENGTH_SHORT).show();
                 }
