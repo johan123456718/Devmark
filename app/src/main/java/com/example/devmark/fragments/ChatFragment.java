@@ -13,9 +13,17 @@ import com.example.devmark.R;
 
 public class ChatFragment extends Fragment {
 
+    private View rootView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_chat, container, false);
+        rootView = inflater.inflate(R.layout.fragment_chat, container, false);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }
