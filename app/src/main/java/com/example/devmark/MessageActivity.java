@@ -1,0 +1,107 @@
+package com.example.devmark;
+
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.devmark.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+
+public class MessageActivity extends AppCompatActivity implements View.OnClickListener, ValueEventListener, TextView.OnEditorActionListener {
+
+    private Toolbar toolBar;
+    private TextView username;
+
+    private FirebaseUser firebaseUser;
+    private DatabaseReference userDatabaseReference, chatDatabaseReference;
+
+    private EditText messageText;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_message);
+        toolBar = findViewById(R.id.toolBar);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        userDatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+                .child(getIntent().getStringExtra("userid"));
+
+        chatDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Chats");
+        username = findViewById(R.id.usernameMessage);
+        messageText = findViewById(R.id.messageText);
+
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        toolBar.setNavigationOnClickListener(this);
+        userDatabaseReference.addValueEventListener(this);
+        messageText.setOnEditorActionListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        toolBar.setNavigationOnClickListener(null);
+    }
+
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        User user = snapshot.getValue(User.class);
+        if(user != null) {
+            username.setText(user.getUsername());
+        }
+
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if(actionId == EditorInfo.IME_ACTION_SEND){
+            String message = messageText.getText().toString();
+            if(message.equals("")){
+               Toast.makeText(this, "You can't send a empty string!", Toast.LENGTH_SHORT).show();
+            }else{
+                HashMap<String, String> chatList = new HashMap<>();
+                chatList.put("sender", firebaseUser.getUid());
+                chatList.put("reciever", getIntent().getStringExtra("userid"));
+                chatList.put("message", message);
+
+                chatDatabaseReference.push().setValue(chatList);
+            }
+            messageText.setText("");
+        }
+        return true;
+    }
+}

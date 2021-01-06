@@ -27,15 +27,19 @@ public class ChatActivity extends AppCompatActivity {
         viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
         viewPageAdapter.addFragment(new ChatFragment(), "Your chat");
         viewPageAdapter.addFragment(new AvailableUserFragment(), "Users to contact");
-        viewPager.setAdapter(viewPageAdapter);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        viewPager.setAdapter(viewPageAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        tabLayout.removeAllTabs();
-        viewPager.removeAllViews();
+        viewPager.setAdapter(null);
+        tabLayout.setupWithViewPager(null);
     }
 }
