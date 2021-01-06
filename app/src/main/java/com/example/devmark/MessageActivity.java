@@ -12,7 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.devmark.model.Chat;
+import com.example.devmark.model.MessageAdapter;
 import com.example.devmark.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,16 +26,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class MessageActivity extends AppCompatActivity implements View.OnClickListener, ValueEventListener, TextView.OnEditorActionListener {
+public class MessageActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener {
 
     private Toolbar toolBar;
     private TextView username;
 
     private FirebaseUser firebaseUser;
-    private DatabaseReference userDatabaseReference, chatDatabaseReference;
-
+    private DatabaseReference userDatabaseReference, chatDatabaseReference, getChatDatabaseReference;
+    private List<Chat> listOfChats;
+    private RecyclerView messageRecyclerView;
+    private MessageAdapter adapter;
     private EditText messageText;
 
     @Override
@@ -43,9 +51,15 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
         userDatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
                 .child(getIntent().getStringExtra("userid"));
 
-        chatDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Chats");
+        chatDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        getChatDatabaseReference = FirebaseDatabase.getInstance().getReference("Chats");
         username = findViewById(R.id.usernameMessage);
         messageText = findViewById(R.id.messageText);
+        messageRecyclerView = findViewById(R.id.messageRecyclerView);
+        listOfChats = new ArrayList<>();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        messageRecyclerView.setLayoutManager(linearLayoutManager);
 
         setSupportActionBar(toolBar);
         getSupportActionBar().setTitle("");
@@ -57,7 +71,48 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
     protected void onStart() {
         super.onStart();
         toolBar.setNavigationOnClickListener(this);
-        userDatabaseReference.addValueEventListener(this);
+        userDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                if(user != null) {
+                    username.setText(user.getUsername());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        getChatDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listOfChats.clear();
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    Chat chat = dataSnapshot.getValue(Chat.class);
+                    String reciever = getIntent().getStringExtra("userid");
+                    String sender = firebaseUser.getUid();
+                    if(chat != null) {
+                        if (chat.getSender().equals(reciever) && chat.getReciever().equals(sender)) {
+                            listOfChats.add(chat);
+                        }
+                        if(chat.getSender().equals(sender) && chat.getReciever().equals(reciever)){
+                            listOfChats.add(chat);
+                        }
+                    }
+                }
+                adapter = new MessageAdapter(MessageActivity.this, listOfChats);
+                messageRecyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         messageText.setOnEditorActionListener(this);
     }
 
@@ -73,20 +128,6 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onDataChange(@NonNull DataSnapshot snapshot) {
-        User user = snapshot.getValue(User.class);
-        if(user != null) {
-            username.setText(user.getUsername());
-        }
-
-    }
-
-    @Override
-    public void onCancelled(@NonNull DatabaseError error) {
-
-    }
-
-    @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if(actionId == EditorInfo.IME_ACTION_SEND){
             String message = messageText.getText().toString();
@@ -98,7 +139,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
                 chatList.put("reciever", getIntent().getStringExtra("userid"));
                 chatList.put("message", message);
 
-                chatDatabaseReference.push().setValue(chatList);
+                chatDatabaseReference.child("Chats").push().setValue(chatList);
             }
             messageText.setText("");
         }
