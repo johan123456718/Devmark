@@ -2,6 +2,7 @@ package com.example.devmark.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(context, MessageActivity.class);
+        Log.d("TAG", "onClick: " + user.getId());
         intent.putExtra("userid", user.getId());
         context.startActivity(intent);
     }
