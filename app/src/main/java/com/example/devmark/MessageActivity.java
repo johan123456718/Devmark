@@ -58,8 +58,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
         messageRecyclerView = findViewById(R.id.messageRecyclerView);
         listOfChats = new ArrayList<>();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        messageRecyclerView.setLayoutManager(linearLayoutManager);
+        messageRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         setSupportActionBar(toolBar);
         getSupportActionBar().setTitle("");

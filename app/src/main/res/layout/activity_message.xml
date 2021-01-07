@@ -8,7 +8,9 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/messageAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        app:titleTextColor="@color/white">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolBar"

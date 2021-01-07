@@ -17,11 +17,11 @@ import com.example.devmark.R;
 
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> implements View.OnClickListener {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     private Context context;
     private List<User> listOfUsers;
-    private User user;
+
     public UserAdapter(Context context, List<User> listOfUsers){
         this.context = context;
         this.listOfUsers = listOfUsers;
@@ -36,23 +36,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        user = listOfUsers.get(position);
+        User user = listOfUsers.get(position);
         holder.username.setText(user.getUsername());
         holder.email.setText(user.getEmail());
-        holder.itemView.setOnClickListener(this);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MessageActivity.class);
+                Log.d("TAG", "onClick: " + user.getId());
+                intent.putExtra("userid", user.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return listOfUsers.size();
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(context, MessageActivity.class);
-        Log.d("TAG", "onClick: " + user.getId());
-        intent.putExtra("userid", user.getId());
-        context.startActivity(intent);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
