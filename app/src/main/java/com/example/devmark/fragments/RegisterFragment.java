@@ -108,9 +108,20 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Intent intent = new Intent(rootView.getContext(), MainActivity.class);
-                                        getActivity().finish();
-                                        startActivity(intent);
+                                        firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()) {
+                                                    Toast.makeText(rootView.getContext(), "Register successful! Please check your email for verification (Current in spam folder) ", Toast.LENGTH_LONG).show();
+                                                    Intent intent = new Intent(rootView.getContext(), MainActivity.class);
+                                                    getActivity().finish();
+                                                    startActivity(intent);
+                                                }else{
+                                                    Toast.makeText(rootView.getContext(), "Failed to send email verification", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+
                                     }
                                 }
                             });

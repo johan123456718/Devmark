@@ -59,6 +59,16 @@
                 android:drawablePadding="3dp"
                 android:textColor="@color/black"
                 app:drawableTint="@color/black" />
+
+            <TextView
+                android:id="@+id/isVerified"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/profileImage"
+                android:layout_below="@+id/emailProfile"
+                android:drawablePadding="3dp"
+                android:textColor="@color/black"
+                app:drawableTint="@color/black" />
         </RelativeLayout>
 
 
