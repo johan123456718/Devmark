@@ -26,7 +26,7 @@ public class ProfileFragment extends Fragment implements ValueEventListener {
     private View rootView;
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
-    private TextView usernameProfile, emailProfile;
+    private TextView usernameProfile, emailProfile, isVerifiedText;
 
     @Nullable
     @Override
@@ -36,6 +36,7 @@ public class ProfileFragment extends Fragment implements ValueEventListener {
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         usernameProfile = rootView.findViewById(R.id.usernameProfile);
         emailProfile = rootView.findViewById(R.id.emailProfile);
+        isVerifiedText = rootView.findViewById(R.id.isVerified);
         return rootView;
     }
 
@@ -60,6 +61,11 @@ public class ProfileFragment extends Fragment implements ValueEventListener {
         User user = snapshot.getValue(User.class);
         usernameProfile.setText(user.getUsername());
         emailProfile.setText(user.getEmail());
+        if(firebaseUser.isEmailVerified()){
+            isVerifiedText.setText("Is verified: Yes");
+        }else{
+            isVerifiedText.setText("Is verified: No");
+        }
     }
 
     @Override
