@@ -2,13 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_light">
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_bg_white_linear"
+        android:orientation="vertical">
 
     <TextView
+        android:id="@+id/requestTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MESSAGE"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:text="Requests from users"
+        android:layout_gravity="center"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        />
+    </LinearLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshAppliedProject"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/titleLayout"
+        android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/appliedProjectRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleLayout" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

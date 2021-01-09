@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layoutDirection="ltr"
+    android:padding="8dp"
+    android:background="@drawable/rounded_bg_white_linear"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/appliedProjectName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Project title:"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:padding="8dp"
+        />
+
+    <TextView
+        android:id="@+id/appliedDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        android:layout_below="@+id/appliedProjectName"
+        android:textColor="@color/black"
+        android:layout_marginStart="10dp"
+        android:textSize="18sp"
+        android:padding="8dp"
+        />
+
+
+    <TextView
+        android:id="@+id/appliedRequester"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Requester"
+        android:layout_below="@id/appliedDescription"
+        android:textColor="@color/black"
+        android:layout_marginStart="10dp"
+        android:textSize="18sp"
+        android:padding="8dp"
+        />
+
+    <Button
+        android:id="@+id/applyAccept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accept"
+        android:layout_below="@id/appliedRequester"
+        android:textColor="@color/white"
+        android:layout_marginStart="10dp"
+        />
+
+    <Button
+        android:id="@+id/applyDeny"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/deny"
+        android:layout_below="@id/appliedRequester"
+        android:layout_toRightOf="@+id/applyAccept"
+        android:textColor="@color/white"
+        android:layout_marginStart="10dp"
+        />
+
+
+</RelativeLayout>

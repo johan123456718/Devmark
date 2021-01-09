@@ -21,4 +21,6 @@
     <string name="tags">Tags for filter </string>
     <string name="create_post">Create post</string>
     <string name="type_a_message">Type a message</string>
+    <string name="deny">Deny</string>
+    <string name="accept">Accept</string>
 </resources>
