@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         rootView = inflater.inflate(R.layout.activity_home, container, false);
         createPost = rootView.findViewById(R.id.createPost);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Posts");
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         options = new FirebaseRecyclerOptions.Builder<Post>()
                     .setQuery(databaseReference, Post.class)
                     .build();
-        adapter = new PostAdapter(options);
+        adapter = new PostAdapter(options, rootView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
@@ -297,14 +297,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     options = new FirebaseRecyclerOptions.Builder<Post>()
                             .setQuery(query, Post.class)
                             .build();
-                    adapter = new PostAdapter(options);
+                    adapter = new PostAdapter(options, rootView.getContext());
                     adapter.startListening();
                     recyclerView.setAdapter(adapter);
                 }else{
                     options = new FirebaseRecyclerOptions.Builder<Post>()
                             .setQuery(databaseReference, Post.class)
                             .build();
-                    adapter = new PostAdapter(options);
+                    adapter = new PostAdapter(options, rootView.getContext());
                     recyclerView.setAdapter(adapter);
                     adapter.startListening();
                 }

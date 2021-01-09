@@ -1,8 +1,12 @@
 package com.example.devmark.model;
 
 public class Post {
-    private String uuid;
-    private String project_title, description, otherRequirements, location;
+    private String id;
+    private String project_id;
+    private String project_title;
+    private String description;
+    private String otherRequirements;
+    private String location;
     private String requirements;
     private String creator;
 
@@ -10,13 +14,14 @@ public class Post {
 
     }
 
-    public Post(String uuid, String project_title,
+    public Post(String id, String project_id, String project_title,
                 String description,
                 String otherRequirements,
                 String location,
                 String requirements,
                 String creator) {
-        this.uuid = uuid;
+        this.id = id;
+        this.project_id = project_id;
         this.project_title = project_title;
         this.description = description;
         this.otherRequirements = otherRequirements;
@@ -25,12 +30,12 @@ public class Post {
         this.creator = creator;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getId() {
+        return id;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getProject_title() {
@@ -79,5 +84,13 @@ public class Post {
 
     public void setRequirements(String requirements) {
         this.requirements = requirements;
+    }
+
+    public String getProject_id() {
+        return project_id;
+    }
+
+    public void setProject_id(String project_id) {
+        this.project_id = project_id;
     }
 }

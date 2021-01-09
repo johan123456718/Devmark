@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
@@ -321,7 +322,7 @@ public class CreatePostDialog extends AppCompatDialogFragment implements DialogI
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         User user = snapshot.getValue(User.class);
                         String userName = user.getUsername();
-                        databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
+                        databaseReference = FirebaseDatabase.getInstance().getReference("Posts");
 
                         StringBuilder sb = new StringBuilder();
                         for(String requirement : getAllCheckedRequirements){
@@ -333,11 +334,13 @@ public class CreatePostDialog extends AppCompatDialogFragment implements DialogI
                         list.put("id", userId);
                         list.put("creator", userName);
                         list.put("project_title", projectTitle);
+                        String id = databaseReference.push().getKey();
+                        list.put("project_id", id);
                         list.put("description", description);
                         list.put("requirements", sb.toString());
                         list.put("location", countryLocation);
 
-                        String id = databaseReference.push().getKey();
+
                         databaseReference.child(id).setValue(list).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
