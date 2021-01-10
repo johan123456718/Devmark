@@ -1,5 +1,8 @@
 package com.example.devmark.model;
 
+/**
+ * Models a chat
+ */
 public class Chat {
 
     private String message;

@@ -2,7 +2,6 @@ package com.example.devmark.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+/**
+ * A fragment for register an account
+ */
 public class RegisterFragment extends Fragment implements View.OnClickListener {
     private EditText username, email, password, passwordConfirmation;
     private Button registerButton;

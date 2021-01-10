@@ -1,5 +1,8 @@
 package com.example.devmark.model;
 
+/**
+ * Models a user
+ */
 public class User {
 
     private String id;

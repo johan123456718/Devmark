@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.devmark.fragments.ChatFragment;
 import com.example.devmark.fragments.HomeFragment;
 import com.example.devmark.fragments.LoginFragment;
 import com.example.devmark.fragments.MessageFragment;
@@ -44,6 +41,8 @@ import com.google.firebase.database.ValueEventListener;
  * https://www.youtube.com/watch?v=fGcMLu1GJEc&list=RDCMUC_Fh8kvtkVPkeihBs42jGcA&index=6
  * https://www.youtube.com/watch?v=zYVEMCiDcmY&list=RDCMUC_Fh8kvtkVPkeihBs42jGcA&index=2
  * https://www.youtube.com/watch?v=bjYstsO1PgI&list=RDCMUC_Fh8kvtkVPkeihBs42jGcA&index=1
+ * --------------
+ * A class for handling the menu, activities and fragments
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener {
     private DrawerLayout drawerLayout;
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 currentFragment = new HomeFragment();
             break;
 
-            case R.id.message:
+            case R.id.request:
                 if (firebaseUser != null) {
                     currentFragment = new MessageFragment();
                 }else{
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.chat:
                 if (firebaseUser != null) {
-                    Intent intent = new Intent(this, ChatActivity.class);
+                    Intent intent = new Intent(this, ChatMenuActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(this, "In order to access 'chat', you need to be signed in!", Toast.LENGTH_SHORT).show();

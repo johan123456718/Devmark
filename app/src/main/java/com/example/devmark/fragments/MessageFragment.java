@@ -1,7 +1,6 @@
 package com.example.devmark.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.devmark.MessageActivity;
 import com.example.devmark.R;
 import com.example.devmark.model.AppliedPostAdapter;
 import com.example.devmark.model.AppliedPosts;
-import com.example.devmark.model.MessageAdapter;
-import com.example.devmark.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * A class for handling requests to projects
+ */
 public class MessageFragment extends Fragment implements ValueEventListener{
     private View rootView;
     private DatabaseReference requestDatabaseReference;

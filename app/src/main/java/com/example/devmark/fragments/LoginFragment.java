@@ -37,6 +37,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
+/**
+ * A class for login
+ */
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private EditText email, password;
@@ -151,6 +154,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Adds account if registered through googleLogin
+     */
     private void addGoogleAccountInDatabase(GoogleSignInAccount acc, String userId){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

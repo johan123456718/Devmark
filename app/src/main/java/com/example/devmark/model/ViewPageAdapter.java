@@ -9,6 +9,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter for ChatMenuActivity
+ */
 public class ViewPageAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragments;
     private List<String> fragmentTitles;

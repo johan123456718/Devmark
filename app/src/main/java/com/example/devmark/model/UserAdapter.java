@@ -17,6 +17,9 @@ import com.example.devmark.R;
 
 import java.util.List;
 
+/**
+ * Adapter for users
+ */
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     private Context context;

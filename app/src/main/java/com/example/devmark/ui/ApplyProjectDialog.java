@@ -3,13 +3,15 @@ package com.example.devmark.ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+/**
+ * A dialog for creating a request and send it to firebase database
+ */
 public class ApplyProjectDialog {
 
     private Context context;

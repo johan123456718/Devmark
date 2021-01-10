@@ -1,8 +1,6 @@
 package com.example.devmark.model;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.devmark.MessageActivity;
 import com.example.devmark.R;
-import com.example.devmark.fragments.HomeFragment;
-import com.example.devmark.fragments.MessageFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,9 +22,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+/**
+ * An adapter for the requests to posts
+ */
 public class AppliedPostAdapter extends RecyclerView.Adapter<AppliedPostAdapter.ViewHolder>{
 
     private Context context;
@@ -106,25 +98,8 @@ public class AppliedPostAdapter extends RecyclerView.Adapter<AppliedPostAdapter.
                                         Toast.makeText(context, "Applied user to your project", Toast.LENGTH_SHORT).show();
                                         String tmp = listOfAppliedPost.get(position).getRequest_id();
                                         requestDatabaseReference.child(tmp).removeValue();
-
-                                        for(AppliedPosts posts: listOfAppliedPost){
-                                            Log.d("TAG", "appPOst_INNAN: " + posts.getRequest_id());
-                                        }
-
-                                        for(Post posts: listOfPosts){
-                                            Log.d("TAG", "OfPOst_INNAN: " + posts.getProject_id());
-                                        }
-
                                         listOfAppliedPost.remove(position);
                                         listOfPosts.remove(position);
-
-                                        for(AppliedPosts posts: listOfAppliedPost){
-                                            Log.d("TAG", "appPOst_EFTER: " + posts.getRequest_id());
-                                        }
-
-                                        for(Post posts: listOfPosts){
-                                            Log.d("TAG", "OfPOst_EFTER: " + posts.getProject_id());
-                                        }
                                     }
                                 });
                             }
