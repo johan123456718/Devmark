@@ -30,6 +30,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Inspiration:
+ * https://www.youtube.com/watch?v=BJkzVc2D0iY&list=PLzLFqCABnRQftQQETzoVMuteXzNiXmnj8&index=6
+ * ------------
+ * A class for handling chat conversation.
+ */
 public class MessageActivity extends AppCompatActivity implements View.OnClickListener, TextView.OnEditorActionListener {
 
     private Toolbar toolBar;

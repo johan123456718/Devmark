@@ -8,11 +8,13 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.devmark.fragments.AvailableUserFragment;
 import com.example.devmark.fragments.ChatFragment;
-import com.example.devmark.fragments.ProfileFragment;
 import com.example.devmark.model.ViewPageAdapter;
 import com.google.android.material.tabs.TabLayout;
 
-public class ChatActivity extends AppCompatActivity {
+/**
+ * Activity for the chats
+ */
+public class ChatMenuActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPageAdapter viewPageAdapter;

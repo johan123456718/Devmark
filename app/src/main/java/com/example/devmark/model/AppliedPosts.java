@@ -1,5 +1,8 @@
 package com.example.devmark.model;
 
+/**
+ * Models a request
+ */
 public class AppliedPosts {
     private String request_id;
     private String requester;

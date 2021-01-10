@@ -1,5 +1,8 @@
 package com.example.devmark.model;
 
+/**
+ * Models a post
+ */
 public class Post {
     private String id;
     private String project_id;
