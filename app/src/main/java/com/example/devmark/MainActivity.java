@@ -26,6 +26,10 @@ import com.example.devmark.fragments.MessageFragment;
 import com.example.devmark.fragments.ProfileFragment;
 import com.example.devmark.fragments.RegisterFragment;
 import com.example.devmark.model.User;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -127,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (firebaseUser != null) {
                     currentFragment = new MessageFragment();
                 }else{
-                    Toast.makeText(this, "You need to be logged in order to be able to go in here!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "In order to access 'requests', you need to be signed in!", Toast.LENGTH_SHORT).show();
                 }
             break;
 
@@ -136,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent intent = new Intent(this, ChatActivity.class);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(this, "You need to be logged in order to be able to go in here!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "In order to access 'chat', you need to be signed in!", Toast.LENGTH_SHORT).show();
                 }
             break;
 
@@ -144,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (firebaseUser != null) {
                     currentFragment = new ProfileFragment();
                 }else{
-                    Toast.makeText(this, "You need to be logged in order to be able to go in here!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "In order to access 'profile', you need to be signed in!", Toast.LENGTH_SHORT).show();
                 }
             break;
 
@@ -157,6 +161,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             break;
 
             case R.id.logout:
+                GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build();
+                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+                googleSignInClient.signOut();
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 startActivity(getIntent());
@@ -183,7 +193,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         User user = snapshot.getValue(User.class);
-        if(user != null) {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null){
+            navUsername.setText(account.getDisplayName());
+        }else if(user != null) {
             navUsername.setText(user.getUsername());
         }
     }

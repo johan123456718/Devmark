@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.devmark.R;
 import com.example.devmark.model.User;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -59,12 +61,19 @@ public class ProfileFragment extends Fragment implements ValueEventListener {
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         User user = snapshot.getValue(User.class);
-        usernameProfile.setText(user.getUsername());
-        emailProfile.setText(user.getEmail());
-        if(firebaseUser.isEmailVerified()){
-            isVerifiedText.setText("Is verified: Yes");
-        }else{
-            isVerifiedText.setText("Is verified: No");
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(rootView.getContext());
+        if(account != null){
+            usernameProfile.setText(account.getDisplayName());
+            emailProfile.setText(account.getEmail());
+            isVerifiedText.setVisibility(View.INVISIBLE);
+        }else if(user != null) {
+            usernameProfile.setText(user.getUsername());
+            emailProfile.setText(user.getEmail());
+            if (firebaseUser.isEmailVerified()) {
+                isVerifiedText.setText("Is verified: Yes");
+            } else {
+                isVerifiedText.setText("Is verified: No");
+            }
         }
     }
 
