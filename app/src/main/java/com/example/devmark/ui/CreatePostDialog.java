@@ -314,8 +314,8 @@ public class CreatePostDialog extends AppCompatDialogFragment implements DialogI
                     getAllCheckedRequirements.add(otherRequirements);
                 }
                 FirebaseUser firebaseUser = auth.getCurrentUser();
-
                 String userId = firebaseUser.getUid();
+
                 databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -357,6 +357,7 @@ public class CreatePostDialog extends AppCompatDialogFragment implements DialogI
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(view.getContext(), "Error", Toast.LENGTH_SHORT).show();
                     }
+
                 });
 
             dialog.dismiss();

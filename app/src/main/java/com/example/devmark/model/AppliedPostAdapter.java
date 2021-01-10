@@ -78,18 +78,18 @@ public class AppliedPostAdapter extends RecyclerView.Adapter<AppliedPostAdapter.
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             listOfPosts.clear();
-                            for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Post post = dataSnapshot.getValue(Post.class);
                                 if (post != null) {
-                                    listOfPosts.add(post);
+                                    if (post.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                        listOfPosts.add(post);
+                                    }
                                 }
                             }
-
                             if(position >= 0 && position < listOfPosts.size()){
                                 post_key = listOfPosts.get(position).getProject_id();
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
@@ -98,15 +98,35 @@ public class AppliedPostAdapter extends RecyclerView.Adapter<AppliedPostAdapter.
                     holder.applyAccept.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
                             if(!user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                                 postDatabaseReference.child(post_key).child("contributers").push().setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(context, "Applied user to your project", Toast.LENGTH_SHORT).show();
+                                        String tmp = listOfAppliedPost.get(position).getRequest_id();
+                                        requestDatabaseReference.child(tmp).removeValue();
+
+                                        for(AppliedPosts posts: listOfAppliedPost){
+                                            Log.d("TAG", "appPOst_INNAN: " + posts.getRequest_id());
+                                        }
+
+                                        for(Post posts: listOfPosts){
+                                            Log.d("TAG", "OfPOst_INNAN: " + posts.getProject_id());
+                                        }
+
+                                        listOfAppliedPost.remove(position);
+                                        listOfPosts.remove(position);
+
+                                        for(AppliedPosts posts: listOfAppliedPost){
+                                            Log.d("TAG", "appPOst_EFTER: " + posts.getRequest_id());
+                                        }
+
+                                        for(Post posts: listOfPosts){
+                                            Log.d("TAG", "OfPOst_EFTER: " + posts.getProject_id());
+                                        }
                                     }
                                 });
-                                post_key = listOfAppliedPost.get(position).getRequest_id();
-                                requestDatabaseReference.child(post_key).removeValue();
                             }
                         }
                     });
@@ -142,7 +162,6 @@ public class AppliedPostAdapter extends RecyclerView.Adapter<AppliedPostAdapter.
         private TextView appliedProjectName, appliedDescription, appliedRequester;
         private Button applyAccept, applyDeny;
         private ImageView image;
-
 
         public ViewHolder(View itemView){
             super(itemView);

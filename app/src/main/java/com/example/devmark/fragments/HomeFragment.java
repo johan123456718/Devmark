@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-
         getAllCheckedRequirements = new ArrayList<>();
         searchButton = rootView.findViewById(R.id.searchButton);
         iconInit();
@@ -103,7 +102,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         super.onStart();
         createPost.setOnClickListener(this);
         adapter.startListening();
-        adapter.notifyDataSetChanged();
 
         iconSwitchSQL.setCheckedChangeListener(new IconSwitch.CheckedChangeListener() {
             @Override
@@ -276,7 +274,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 }
             }
         });
-
         searchButton.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
